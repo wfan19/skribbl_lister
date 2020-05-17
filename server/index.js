@@ -25,11 +25,13 @@ const init = async () => {
 
   app.set('trust proxy', 1);
 
-  // const sessionOptions = {
-  //   store: new MongoStore({
-  //     mongooseConnection: mongoose.connection,
-  //   }),
-  // };
+  const sessionOptions = {
+    store: new MongoStore({
+      mongooseConnection: mongoose.connection,
+    }),
+  };
+  const expressSession = session(sessionOptions);
+  app.use(expressSession);
 
   app.listen(config.server.port, '0.0.0.0', () => {
     logger.debug(`Server is now running on ${config.server.port}`);
