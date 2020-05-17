@@ -1,0 +1,7 @@
+{
+	"server": {
+		"host": "localhost",
+		"port": 4000
+	},
+	"mongodb": "mongodb://127.0.0.1/skribbl_list"
+}
