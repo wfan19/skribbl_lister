@@ -22,5 +22,9 @@
         "react"
     ],
     "rules": {
+        "semi": 1,
+        "no-underscore-dangle": 0,
+        "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+        "no-console": "warn"
     }
 }
