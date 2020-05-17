@@ -8,14 +8,21 @@ function App() {
     <AppContainer>
       <div className="App">
         <header className="App-header">
-          <Grid columns="2" divided relxaed>
-            <GridColumn>
+          <Grid 
+            columns={2}
+            centered
+            textAlign='center'
+            divided
+            relaxed
+            style={{ height: '100vh' }}
+          >
+            <GridColumn verticalAlign='middle'>
               <p>
               Welcome to the Ultimate <code>Skribbl.io</code> Experience
               </p>
             </GridColumn>
             
-            <GridColumn>
+            <GridColumn verticalAlign='middle'>
               <Button primary> Click here to get started </Button>
             </GridColumn>
           </Grid>
