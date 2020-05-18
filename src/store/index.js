@@ -6,6 +6,8 @@ import { createBrowserHistory } from 'history';
 
 import listReducer from './list/reducer';
 
+import socketMiddleware from './socket/middleware';
+
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 export const history = createBrowserHistory();
@@ -18,7 +20,7 @@ const rootReducer = combineReducers({
 
 const middlewares = [
     routerMiddleware(history),
-    // socketMiddleware,
+    socketMiddleware,
 ];
 
 const middleware = applyMiddleware(...middlewares);

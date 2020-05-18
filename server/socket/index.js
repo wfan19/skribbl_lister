@@ -11,6 +11,7 @@ module.exports = ({ app, expressSession }) => {
   io.on('connection', (socket) => {
     console.log('a user connected');
   });
-  
+
   // io.use(expressSocketSession)
+  return server;
 }

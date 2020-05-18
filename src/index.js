@@ -3,6 +3,12 @@ import ReactDOM from 'react-dom';
 import './css/index.css';
 import App from './components/App';
 import * as serviceWorker from './serviceWorker';
+import { store } from './store';
+import { connectSocket } from './store/socket/actions';
+import { fetchLists } from './store/lists/actions';
+
+store.dispatch(connectSocket());
+store.dispatch(fetchLists());
 
 ReactDOM.render(
   <React.StrictMode>
