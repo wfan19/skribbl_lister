@@ -26,9 +26,12 @@ const socketMiddleware = (store) => {
       store.dispatch(disconnected());
     },
     events: {
-      [SocketMessage.CONNECTED]: (lists) => {
+      [SocketMessage.UPDATE_LISTS]: (lists) => {
         store.dispatch(updateLists(lists));
       },
+      [SocketMessage.LIST_CREATED]: (list) => {
+        store.dispatch()
+      }
     },
   });
 

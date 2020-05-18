@@ -8,5 +8,9 @@ module.exports = {
     ERROR: 'error',
 
     UPDATE_LISTS: 'update_lists',
+    CREATE_LIST: 'create_list',
+    LIST_CREATED: 'list_created',
+    DELETE_LIST: 'delete_list',
+    LIST_DELETED: 'list_deleted',
   };
   
