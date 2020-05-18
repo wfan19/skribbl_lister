@@ -1,16 +1,42 @@
-import React from 'react';
-import { Header, Input, Segment} from 'semantic-ui-react';
+import React, { useState } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { Form, Header, Input, Segment} from 'semantic-ui-react';
 import 'semantic-ui-css/semantic.min.css';
 
-function List() {
+import { addWord } from '../../store/list/actions';
+
+function List({dispatch}) {
+  const [wordState, setWordState] = useState('');
+  
+  const onInput = (data) => {
+    setWordState(data.target.value);
+  }
+
+  const onSubmit = () => {
+    // console.log(wordState);
+    dispatch(addWord(wordState));
+  }
+  
   return (
-    <div style={{marginLeft: '10vh', marginRight: '10vh'}}>
-      <Segment>
+    <div style={{marginLeft: '7vw', marginRight: '7vw'}}>
+      <Segment style={{paddingLeft: '3vw', paddingRight: '3vw'}}>
         <Header as="h1">This is a list!!</Header>
-        <Input placeholder="Enter new word" />
+        <Form onSubmit={onSubmit}>
+          <Form.Field>
+            <Input
+              onChange={onInput}
+              placeholder="Enter word here"
+            />
+          </Form.Field>
+        </Form>
       </Segment>
     </div>
   );
 }
 
-export default List;
+List.propTypes = {
+  dispatch: PropTypes.func.isRequired,
+};
+
+export default connect()(List);

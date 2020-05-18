@@ -5,7 +5,7 @@ const INITIAL_STATE = {
 };
 
 const reducers = {
-  [ADD_WORD]: (state, action) => ({ ...state, words: words.push(action.word) }),
+  [ADD_WORD]: (state, action) => ({ ...state, words: state.words.concat(action.word) }),
 };
 
 function listReducer(state = INITIAL_STATE, action) {
