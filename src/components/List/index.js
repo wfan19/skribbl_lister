@@ -19,8 +19,8 @@ function List({dispatch}) {
   }
   
   return (
-    <div style={{marginLeft: '7vw', marginRight: '7vw'}}>
-      <Segment style={{paddingLeft: '3vw', paddingRight: '3vw'}}>
+    <div>
+      <Segment style={{ marginLeft: '10vw', marginRight: '10vw' }}>
         <Header as="h1">This is a list!!</Header>
         <Form onSubmit={onSubmit}>
           <Form.Field>

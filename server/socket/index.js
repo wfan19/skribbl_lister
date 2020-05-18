@@ -20,6 +20,7 @@ module.exports = ({ app, expressSession }) => {
       socket.emit(SocketMessage.UPDATE_LISTS, lists.map(listMask));
     })
 
+    // TODO: Names aren't saving
     socket.on(SocketMessage.CREATE_LIST, async (options) => {
       const listTemp = new List({
         name: options.name,

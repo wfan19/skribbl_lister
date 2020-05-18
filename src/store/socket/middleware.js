@@ -8,7 +8,10 @@ import {
   connectionChanged
 } from './actions';
 import {
-  updateLists
+  CREATE_LIST,
+  DELETE_LIST,
+  updateLists,
+  listCreated,
 } from '../lists/actions';
 
 const socketMiddleware = (store) => {
@@ -30,7 +33,7 @@ const socketMiddleware = (store) => {
         store.dispatch(updateLists(lists));
       },
       [SocketMessage.LIST_CREATED]: (list) => {
-        store.dispatch()
+        store.dispatch(listCreated(list));
       }
     },
   });
@@ -49,6 +52,12 @@ const socketMiddleware = (store) => {
     },
     [DISCONNECT_SOCKET]: () => {
       socket.disconnect();
+    },
+    [CREATE_LIST]: (options) => {
+      socket.emit(SocketMessage.CREATE_LIST, options);
+    },
+    [DELETE_LIST]: (id) => {
+      socket.emit(SocketMessage.DELETE_LIST, id);
     },
   };
 

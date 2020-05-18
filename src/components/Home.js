@@ -1,31 +1,77 @@
 import React from 'react';
-import { Button, Grid, GridColumn } from 'semantic-ui-react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import {
+  Button,
+  Grid,
+  Table,
+  Icon,
+  Segment,
+} from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import 'semantic-ui-css/semantic.min.css';
 
-function Home() {
+import { createList } from '../store/lists/actions'
+
+function Home({ dispatch, lists }) {
+
+  const handleCreateRoom = () => {
+    dispatch(createList({ name: 'name1234' }));
+  }
+
   return (
     <div className="App">
-      <Grid
-        columns={2}
-        centered
-        textAlign="center"
-        divided
-        relaxed
-        style={{ height: '100vh' }}
-      >
-        <GridColumn verticalAlign="middle">
-          <p>Welcome to the Ultimate Skribbl.io Experience</p>
-        </GridColumn>
+      <Segment style={{ marginLeft: '10vw', marginRight: '10vw' }}>
+        <Grid
+          centered
+          textAlign="center"
+          divided
+          relaxed
+        >
+          <Grid.Row columns={2}>
+            <Grid.Column verticalAlign="top">
+              <p>Welcome to the Ultimate Skribbl.io Experience</p>
+            </Grid.Column>
 
-        <GridColumn verticalAlign="middle">
-          <Link to="/list/1234">
-            <Button primary> Click here to get started </Button>
-          </Link>
-        </GridColumn>
-      </Grid>
+            <Grid.Column verticalAlign="top">
+              <Link to="/list/1234">
+                <Button primary> Click here to get started </Button>
+              </Link>
+            </Grid.Column>
+          </Grid.Row>
+        </Grid>
+
+        {
+          //TODO: Create table items that actually show up properly
+        }
+        <Table celled striped>
+          <Table.Header>
+            <Table.Row>
+              <Table.HeaderCell>
+                <Button floated='right' compact onClick={handleCreateRoom}>
+                  <Icon name="plus" size='small'/> New List
+                </Button>
+              </Table.HeaderCell>
+            </Table.Row>
+          </Table.Header>
+        </Table>
+      </Segment>
     </div>
   );
 }
 
-export default Home;
+Home.propTypes = {
+  dispatch: PropTypes.func.isRequired,
+  lists: PropTypes.arrayOf(PropTypes.shape()),
+};
+
+Home.defaultProps = {
+  lists: [],
+};
+
+// TODO: Why isn't the lists state showing in Redux tools?
+const mapStateToProps = (state) => ({
+  lists: state.lists,
+});
+
+export default connect(mapStateToProps)(Home);
