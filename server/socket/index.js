@@ -22,10 +22,14 @@ module.exports = ({ app, expressSession }) => {
 
     // TODO: Names aren't saving
     socket.on(SocketMessage.CREATE_LIST, async (options) => {
+      optionsObj = options.options;
+      logger.debug(`List.name = ${optionsObj.name}`);
       const listTemp = new List({
-        name: options.name,
+        name: optionsObj.name,
       })
+      logger.debug(`List document: ${JSON.stringify(listTemp.inspect())}`);
       const listOut = await listTemp.save();
+      logger.debug(`New list created: ${JSON.stringify(listOut)}`);
       io.emit(SocketMessage.LIST_CREATED, listOut);
     })
 

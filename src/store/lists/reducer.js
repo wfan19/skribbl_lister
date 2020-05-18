@@ -23,11 +23,11 @@ const reducer = {
   }),
 }
 
-function listReducer(state = INITIAL_STATE, action) {
+function listsReducer(state = INITIAL_STATE, action) {
   if (reducer[action.type]) {
-    reducer[action.type](state, action);
+    return reducer[action.type](state, action);
   }
   return state;
 }
 
-export default listReducer;
+export default listsReducer;

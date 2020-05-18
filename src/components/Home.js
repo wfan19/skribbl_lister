@@ -69,7 +69,6 @@ Home.defaultProps = {
   lists: [],
 };
 
-// TODO: Why isn't the lists state showing in Redux tools?
 const mapStateToProps = (state) => ({
   lists: state.lists,
 });

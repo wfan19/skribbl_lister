@@ -25,7 +25,7 @@ const Entry = new mongoose.Schema({
 const List = new mongoose.Schema({
   name: {
     type: String,
-    default: 'unnamed-list',
+    default: '',
   },
   entries: {
     type: [Entry],

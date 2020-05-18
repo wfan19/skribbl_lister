@@ -4,7 +4,9 @@ import {
 import { connectRouter, routerMiddleware } from 'connected-react-router';
 import { createBrowserHistory } from 'history';
 
+import socketReducer from './socket/reducer';
 import listReducer from './list/reducer';
+import listsReducer from './lists/reducer';
 
 import socketMiddleware from './socket/middleware';
 
@@ -14,8 +16,9 @@ export const history = createBrowserHistory();
 
 const rootReducer = combineReducers({
     router: connectRouter(history),
+    socket: socketReducer,
     list: listReducer,
-    // socket: socketReducer,
+    lists: listsReducer,
 });
 
 const middlewares = [
