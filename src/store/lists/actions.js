@@ -19,12 +19,12 @@ export const listCreated = (list) => ({
   list,
 });
 
-export const deleteList = (id) => ({
+export const deleteList = (_id) => ({
   type: DELETE_LIST,
-  id,
+  _id,
 })
 
-export const listDeleted = (id) => ({
+export const listDeleted = (_id) => ({
   type: LIST_DELETED,
-  id,
+  _id,
 })

@@ -6,7 +6,7 @@ const SocketMessage = require('../../src/lib/MessageNames');
 const { List } = require('../models');
 
 const listMask = (list) => ({
-  ..._.partial(_.pick, _, ['_id', 'name', 'entries'])
+  ..._.partial(_.pick, _, ['_id', 'name', 'entries'])(list)
 })
 
 module.exports = ({ app, expressSession }) => {
@@ -21,8 +21,8 @@ module.exports = ({ app, expressSession }) => {
     })
 
     // TODO: Names aren't saving
-    socket.on(SocketMessage.CREATE_LIST, async (options) => {
-      optionsObj = options.options;
+    socket.on(SocketMessage.CREATE_LIST, async (optionsAction) => {
+      optionsObj = optionsAction.options;
       logger.debug(`List.name = ${optionsObj.name}`);
       const listTemp = new List({
         name: optionsObj.name,
@@ -33,8 +33,10 @@ module.exports = ({ app, expressSession }) => {
       io.emit(SocketMessage.LIST_CREATED, listOut);
     })
 
-    socket.on(SocketMessage.DELETE_LIST, async (id) => {
-      Lists.deleteOne({_id: id}).then((res) => {
+    socket.on(SocketMessage.DELETE_LIST, async (idAction) => {
+      id = idAction._id;
+      logger.debug(`Deleting room with id ${id}`);
+      List.deleteOne({_id: id}).then((res) => {
         io.emit(SocketMessage.LIST_DELETED, id);
       })
     })

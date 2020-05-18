@@ -12,6 +12,7 @@ import {
   DELETE_LIST,
   updateLists,
   listCreated,
+  listDeleted,
 } from '../lists/actions';
 
 const socketMiddleware = (store) => {
@@ -34,7 +35,10 @@ const socketMiddleware = (store) => {
       },
       [SocketMessage.LIST_CREATED]: (list) => {
         store.dispatch(listCreated(list));
-      }
+      },
+      [SocketMessage.LIST_DELETED]: (id) => {
+        store.dispatch(listDeleted(id));
+      },
     },
   });
 

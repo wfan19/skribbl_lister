@@ -1,23 +1,15 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import {
   Button,
   Grid,
-  Table,
-  Icon,
   Segment,
 } from 'semantic-ui-react';
-import { Link } from 'react-router-dom';
 import 'semantic-ui-css/semantic.min.css';
 
-import { createList } from '../store/lists/actions'
+import ListTable from './ListTable';
 
-function Home({ dispatch, lists }) {
-
-  const handleCreateRoom = () => {
-    dispatch(createList({ name: 'name1234' }));
-  }
+function Home() {
 
   return (
     <div className="App">
@@ -44,33 +36,10 @@ function Home({ dispatch, lists }) {
         {
           //TODO: Create table items that actually show up properly
         }
-        <Table celled striped>
-          <Table.Header>
-            <Table.Row>
-              <Table.HeaderCell>
-                <Button floated='right' compact onClick={handleCreateRoom}>
-                  <Icon name="plus" size='small'/> New List
-                </Button>
-              </Table.HeaderCell>
-            </Table.Row>
-          </Table.Header>
-        </Table>
+        <ListTable/>
       </Segment>
     </div>
   );
 }
 
-Home.propTypes = {
-  dispatch: PropTypes.func.isRequired,
-  lists: PropTypes.arrayOf(PropTypes.shape()),
-};
-
-Home.defaultProps = {
-  lists: [],
-};
-
-const mapStateToProps = (state) => ({
-  lists: state.lists,
-});
-
-export default connect(mapStateToProps)(Home);
+export default Home;
