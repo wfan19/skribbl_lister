@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import {
     Button,
     Table,
@@ -7,12 +8,10 @@ import {
   } from 'semantic-ui-react';
 import 'semantic-ui-css/semantic.min.css';
 
-function ListTableRow({ list, onClick, onDelete }) {
-
-
+function ListTableRow({ list, onClick, onDelete, activeListId }) {
   return (
-    <Table.Row>
-      <Table.Cell verticalAlgin='middle' onClick={onClick}>
+    <Table.Row active={activeListId === list._id}>
+      <Table.Cell verticalAlgin='middle' onClick={() => (onClick(list._id))}>
         {list.name}
         <Button onClick={() => onDelete(list._id)} size='mini' compact floated='right'>
           <Icon fitted name="trash"/>
@@ -29,11 +28,17 @@ ListTableRow.propTypes = {
   }),
   onClick: PropTypes.func,
   onDelete: PropTypes.func,
+  activeListId: PropTypes.number,
 }
 
 ListTableRow.defaultProps = {
   onClick: null,
   onDelete: null,
+  activeListId: null,
 }
 
-export default ListTableRow;
+const mapStateToProps = (state) => ({
+  activeListId: state.list.listSelected._id,
+});
+
+export default connect(mapStateToProps)(ListTableRow);

@@ -41,6 +41,16 @@ module.exports = ({ app, expressSession }) => {
       })
     })
 
+    socket.on(SocketMessage.SELECT_LIST, async (idAction) => {
+      // logger.debug(`ID Action: ${JSON.stringify(idAction)}`);
+      id = idAction._id;
+      // logger.debug(`Looking for list with id ${id}`);
+      List.findById(id).then((list) => {
+        logger.debug(`Found list document: ${JSON.stringify(list)}`);
+        io.emit(SocketMessage.LIST_SELECTED, list);
+      })
+    })
+
   });
 
   // io.use(expressSocketSession)

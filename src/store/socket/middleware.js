@@ -14,6 +14,7 @@ import {
   listCreated,
   listDeleted,
 } from '../lists/actions';
+import { SELECT_LIST, listSelected } from '../list/actions';
 
 const socketMiddleware = (store) => {
   // The socket's connection state changed
@@ -39,6 +40,9 @@ const socketMiddleware = (store) => {
       [SocketMessage.LIST_DELETED]: (id) => {
         store.dispatch(listDeleted(id));
       },
+      [SocketMessage.LIST_SELECTED]: (list) => {
+        store.dispatch(listSelected(list));
+      }
     },
   });
 
@@ -62,6 +66,9 @@ const socketMiddleware = (store) => {
     },
     [DELETE_LIST]: (id) => {
       socket.emit(SocketMessage.DELETE_LIST, id);
+    },
+    [SELECT_LIST]: (id) => {
+      socket.emit(SocketMessage.SELECT_LIST, id);
     },
   };
 

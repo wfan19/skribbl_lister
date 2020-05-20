@@ -9,7 +9,7 @@ export const updateLists = (lists) => ({
   lists,
 });
 
-export const createList = (options) => ({
+export const createList = (options)=>  ({
   type: CREATE_LIST,
   options,
 })

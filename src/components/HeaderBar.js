@@ -8,7 +8,7 @@ import 'semantic-ui-css/semantic.min.css';
 function HeaderBar({ children }) {
   return (
     <div>
-      <Menu>
+      <Menu style={{marginBottom: '1rem'}}>
         <Link to="/">
           <Menu.Item>
             <h2>Skribbl Lister</h2>

@@ -8,17 +8,27 @@ import {
 } from 'semantic-ui-react';
 import 'semantic-ui-css/semantic.min.css';
 
-import { createList, deleteList } from '../store/lists/actions'
+import {
+  createList,
+  deleteList
+} from '../store/lists/actions';
+
+import {
+  selectList
+} from '../store/list/actions';
 
 import ListTableRow from './ListTableRow';
 
-function ListTable({ dispatch, lists }) {
+function ListTable({ dispatch, lists, activeList }) {
 
   const handleCreateList = () => {
     dispatch(createList({ name: 'name1234' }));
   };
 
-  const handleOpenList = () => {
+  const handleOpenList = (id) => {
+    // console.log(`Setting active list to ${id}`);
+    // setActiveList(id);
+    dispatch(selectList(id));
   };
 
   const handleDeleteList = (id) => {
@@ -30,6 +40,7 @@ function ListTable({ dispatch, lists }) {
       <Table.Header>
         <Table.Row>
           <Table.HeaderCell>
+            Lists
             <Button floated='right' compact onClick={handleCreateList}>
               <Icon name="plus" size='small'/> New List
             </Button>

@@ -19,7 +19,6 @@ function Navigation(){
   return (
     <div>
       <HeaderBar>
-        <header className="App-header">
           <Suspense fallback={Loading}>
             <Switch>
               <Route exact path="/" component={Home} />
@@ -29,7 +28,6 @@ function Navigation(){
               <Redirect to="/" />
             </Switch>
           </Suspense>
-        </header>
       </HeaderBar>
     </div>
   )

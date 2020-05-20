@@ -12,5 +12,7 @@ module.exports = {
     LIST_CREATED: 'list_created',
     DELETE_LIST: 'delete_list',
     LIST_DELETED: 'list_deleted',
+    SELECT_LIST: 'select_list',
+    LIST_SELECTED: 'list_selected',
   };
   
