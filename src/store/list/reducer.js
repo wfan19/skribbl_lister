@@ -3,20 +3,16 @@ import {
   LIST_SELECTED,
   SELECT_LIST,
   SET_EDITING,
+  WORD_ADDED,
 } from './actions';
 
 const INITIAL_STATE = {
-  words: [],
   listSelectedId: null,
   listSelected: {},
   editing: false,
 };
 
 const reducers = {
-  [ADD_WORD]: (state, action) => ({
-    ...state,
-    words: state.words.concat(action.word),
-  }),
   [SELECT_LIST]: (state, action) => ({
     ...state,
     listSelectedId: action._id,
@@ -30,7 +26,14 @@ const reducers = {
   [SET_EDITING]: (state, action) => ({
     ...state,
     editing: action.editing,
-  })
+  }),
+  [WORD_ADDED]: (state, action) => ({
+    ...state,
+    listSelected: {
+      ...state.listSelected,
+      entries: state.listSelected.entries.concat(action.word),   
+    },
+  }),
 };
 
 function listReducer(state = INITIAL_STATE, action) {

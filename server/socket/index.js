@@ -31,6 +31,7 @@ module.exports = ({ app, expressSession }) => {
       [SocketMessage.SELECT_LIST]: mListManager.selectList,
       [SocketMessage.JOIN_LIST_ROOM]: mRoomManager.joinRoom,
       [SocketMessage.LEAVE_LIST_ROOM]: mRoomManager.leaveRoom,
+      [SocketMessage.ADD_WORD]: mRoomManager.addWord,
     }
 
     // Register middleware

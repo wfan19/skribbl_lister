@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
-const uuidv4 = require('uuid/v4')
+const uuidv4 = require('uuid/v4');
+const logger = require('../logger');
 
 const Tag = new mongoose.Schema({
   tagName: {
@@ -37,5 +38,20 @@ const List = new mongoose.Schema({
     default: uuidv4,
   },
 });
+
+List.methods.createWord = function (word, tags) {
+  return ({
+    word: word,
+    tags: tags,
+  });
+}
+
+List.methods.addWord = function (word, tags) {
+  logger.debug(`Adding word ${word}, with tags ${tags}`);
+  const newWord = this.createWord(word, tags);
+  logger.debug(`New word created: ${JSON.stringify(newWord)}`);
+  this.entries = this.entries.concat([newWord]);
+  return this.save();
+};
 
 module.exports.List = List;

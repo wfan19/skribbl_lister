@@ -14,7 +14,7 @@ import {
   listCreated,
   listDeleted,
 } from '../lists/actions';
-import { SELECT_LIST, listSelected, SET_EDITING, ADD_WORD } from '../list/actions';
+import { SELECT_LIST, listSelected, SET_EDITING, ADD_WORD, wordAdded } from '../list/actions';
 
 const socketMiddleware = (store) => {
   // The socket's connection state changed
@@ -42,6 +42,9 @@ const socketMiddleware = (store) => {
       },
       [SocketMessage.LIST_SELECTED]: (list) => {
         store.dispatch(listSelected(list));
+      },
+      [SocketMessage.WORD_ADDED]: (word) => {
+        store.dispatch(wordAdded(word));
       }
     },
   });

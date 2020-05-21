@@ -8,31 +8,48 @@ class RoomManager {
     this.socket = socket;
   }
 
+  emitToAllInRoom(messageName, data){
+    logger.debug(`Emitting ${data} to room ${this.socket.listCode}`);
+    this.io.in(this.socket.listCode).emit(messageName, data);
+  }
+
   joinRoom = async (id) => {
-    const room = await List.findById(id);
-    if (!room) {
+    const list = await List.findById(id);
+    if (!list) {
       logger.error(`Attempting to join room with id ${id} but room not found!`);
       return;
     }
-    logger.debug(`Socket ${this.socket.id} joining room ${room.accessCode}`);
-    this.socket.join(room.accessCode, async () => {
+    logger.debug(`Socket ${this.socket.id} joining room ${list._id}`);
+    this.socket.join(list.accessCode, async () => {
       logger.debug(`Socket ${this.socket.id} joined room with id ${id}`);
-      this.socket.roomId = room.accessCode;
-      this.socket.room = room;
+      this.socket.listCode = list.accessCode;
+      this.socket.list = list;
     });
-  }
+  };
 
   leaveRoom = async () => {
-    if (this.socket.room) {
-      this.socket.leave(this.socket.room.accessCode, async () => {
-        logger.debug(`Socket ${this.socket.id} left room with id ${this.socket.roomId}`);
-        delete this.socket.room;
-        delete this.socket.roomId;
+    if (this.socket.list) {
+      this.socket.leave(this.socket.listCode, async () => {
+        logger.debug(`Socket ${this.socket.id} left room with id ${this.socket.list._id}`);
+        delete this.socket.list;
+        delete this.socket.listCode;
       })
     } else {
       logger.debug(`Socket ${this.socket.id} attempting to leave room while not in one`);
     }
-  }
+  };
+
+  addWord = async (word) => {
+    if (this.socket.list) {
+      // logger.debug(``)
+      const updatedList = await this.socket.list.addWord(word , []);
+      const newWord = updatedList.entries[updatedList.entries.length - 1];
+      logger.debug(`Broadcasting new word ${JSON.stringify(newWord)}`);
+      this.emitToAllInRoom(SocketMessage.WORD_ADDED, newWord);
+    } else {
+      logger.error(`Socket ${this.socket.id} attempting to add word to room while not in one`);
+    }
+  };
 
 }
 
