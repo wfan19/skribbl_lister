@@ -13,8 +13,9 @@ export const listSelected = (list) => ({
   list,
 });
 
-export const setEditing = (editing) => ({
+export const setEditing = (list, editing) => ({
   type: SET_EDITING,
+  list,
   editing,
 })
 

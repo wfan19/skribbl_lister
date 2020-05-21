@@ -14,7 +14,7 @@ import {
   listCreated,
   listDeleted,
 } from '../lists/actions';
-import { SELECT_LIST, listSelected } from '../list/actions';
+import { SELECT_LIST, listSelected, SET_EDITING } from '../list/actions';
 
 const socketMiddleware = (store) => {
   // The socket's connection state changed
@@ -62,14 +62,21 @@ const socketMiddleware = (store) => {
       socket.disconnect();
     },
     [CREATE_LIST]: (options) => {
-      socket.emit(SocketMessage.CREATE_LIST, options);
+      socket.emit(SocketMessage.CREATE_LIST, options.options);
     },
     [DELETE_LIST]: (id) => {
-      socket.emit(SocketMessage.DELETE_LIST, id);
+      socket.emit(SocketMessage.DELETE_LIST, id._id);
     },
     [SELECT_LIST]: (id) => {
-      socket.emit(SocketMessage.SELECT_LIST, id);
+      socket.emit(SocketMessage.SELECT_LIST, id._id);
     },
+    [SET_EDITING]: (editing) => {
+      if (editing.editing === true) {
+        socket.emit(SocketMessage.JOIN_LIST_ROOM, editing.list._id);
+      } else {
+        socket.emit(SocketMessage.LEAVE_LIST_ROOM, editing.list._id);
+      }
+    }
   };
 
   // Return the handler that will be called for each action dispatched

@@ -13,7 +13,7 @@ import 'semantic-ui-css/semantic.min.css';
 
 import { addWord, setEditing } from '../../store/list/actions';
 
-function List({dispatch, editing}) {
+function List({ dispatch, listSelected, editing }) {
   const [wordState, setWordState] = useState('');
   
   const onInput = (data) => {
@@ -27,43 +27,59 @@ function List({dispatch, editing}) {
   }
   
   const onSetEditing = () => {
-    dispatch(setEditing(!editing))
+    if (listSelected) {
+      dispatch(setEditing(listSelected, !editing));
+    }
   }
-  
-  return (
-    <div>
-      <Segment style={{ marginLeft: '10vw', marginRight: '10vw' }}>
-        <Button toggle active={editing} floated="right" onClick={onSetEditing}>
-          <Icon fitted name="pencil alternate" />
-        </Button>
-        <Header as="h1">This is a list!!</Header>
-        {editing && 
-          <Form onSubmit={onSubmit}>
-            <Form.Field>
-              <Input
-                type="word"
-                value={wordState}
-                onChange={onInput}
-                placeholder="Enter word here"
-              />
-            </Form.Field>
-          </Form>
-        }
-      </Segment>
-    </div>
-  );
+
+  if (!listSelected._id){
+    return (
+      <div style={{ textAlign: 'center'}}>
+        <p>No list selected</p>
+      </div>
+    );
+  } else {
+    return (
+      <div>
+        <Segment style={{ marginLeft: '10vw', marginRight: '10vw' }}>
+          <Button toggle active={editing} floated="right" onClick={onSetEditing}>
+            <Icon fitted name="pencil alternate" />
+          </Button>
+          <Header as="h1">This is a list!!</Header>
+          {editing && 
+            <Form onSubmit={onSubmit}>
+              <Form.Field>
+                <Input
+                  type="word"
+                  value={wordState}
+                  onChange={onInput}
+                  placeholder="Enter word here"
+                />
+              </Form.Field>
+            </Form>
+          }
+        </Segment>
+      </div>
+    );
+  }
 }
 
 List.propTypes = {
   dispatch: PropTypes.func.isRequired,
   editing: PropTypes.bool,
+  listSelected: PropTypes.shape({
+    _id: PropTypes.number,
+    name: PropTypes.string,
+  }),
 };
 
 List.defaultProps = {
   editing: false,
+  listSelected: {},
 };
 
 const mapStateToProps = (state) => ({
+  listSelected: state.list.listSelected,
   editing: state.list.editing,
 });
 

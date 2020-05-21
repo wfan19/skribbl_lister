@@ -5,15 +5,15 @@ const SocketMessage = require('../../src/lib/MessageNames');
 const { List } = require('../models');
 
 class ListManager {
-  constructor(io) {
+  constructor(io, socket) {
     this.io = io;
+    this.socket = socket;
   }
 
-  createList = async (optionsAction) => {
-    const optionsObj = optionsAction.options;
-    logger.debug(`List.name = ${optionsObj.name}`);
+  createList = async (options) => {
+    logger.debug(`List.name = ${options.name}`);
     const listTemp = new List({
-      name: optionsObj.name,
+      name: options.name,
     })
     logger.debug(`List document: ${JSON.stringify(listTemp.inspect())}`);
     const listOut = await listTemp.save();
@@ -21,21 +21,18 @@ class ListManager {
     this.io.emit(SocketMessage.LIST_CREATED, listOut);
   }
 
-  deleteList = async (idAction) => {
-    const id = idAction._id;
+  deleteList = async (id) => {
     logger.debug(`Deleting room with id ${id}`);
     List.deleteOne({_id: id}).then((res) => {
       this.io.emit(SocketMessage.LIST_DELETED, id);
     })
   }
 
-  selectList = async (idAction) => {
-    // logger.debug(`ID Action: ${JSON.stringify(idAction)}`);
-    const id = idAction._id;
+  selectList = async (id) => {
     // logger.debug(`Looking for list with id ${id}`);
     List.findById(id).then((list) => {
       logger.debug(`Found list document: ${JSON.stringify(list)}`);
-      this.io.emit(SocketMessage.LIST_SELECTED, list);
+      this.socket.emit(SocketMessage.LIST_SELECTED, list);
     })
   }
 }

@@ -14,5 +14,8 @@ module.exports = {
     LIST_DELETED: 'list_deleted',
     SELECT_LIST: 'select_list',
     LIST_SELECTED: 'list_selected',
+
+    JOIN_LIST_ROOM: 'join_list_room',
+    LEAVE_LIST_ROOM: 'leave_list_room',
   };
   

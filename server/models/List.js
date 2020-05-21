@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const uuidv4 = require('uuid/v4')
 
 const Tag = new mongoose.Schema({
   tagName: {
@@ -30,6 +31,10 @@ const List = new mongoose.Schema({
   entries: {
     type: [Entry],
     default: [],
+  },
+  accessCode: {
+    type: String,
+    default: uuidv4,
   },
 });
 
