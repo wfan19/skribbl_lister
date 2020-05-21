@@ -17,5 +17,7 @@ module.exports = {
 
     JOIN_LIST_ROOM: 'join_list_room',
     LEAVE_LIST_ROOM: 'leave_list_room',
+    ADD_WORD: 'add_word',
+    WORD_ADDED: 'word_added',
   };
   

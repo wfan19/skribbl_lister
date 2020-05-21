@@ -1,5 +1,4 @@
 const _ = require('lodash');
-const socketIO = require('socket.io');
 const logger = require('../logger');
 const SocketMessage = require('../../src/lib/MessageNames');
 const { List } = require('../models');

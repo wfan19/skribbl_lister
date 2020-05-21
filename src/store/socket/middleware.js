@@ -14,7 +14,7 @@ import {
   listCreated,
   listDeleted,
 } from '../lists/actions';
-import { SELECT_LIST, listSelected, SET_EDITING } from '../list/actions';
+import { SELECT_LIST, listSelected, SET_EDITING, ADD_WORD } from '../list/actions';
 
 const socketMiddleware = (store) => {
   // The socket's connection state changed
@@ -76,6 +76,9 @@ const socketMiddleware = (store) => {
       } else {
         socket.emit(SocketMessage.LEAVE_LIST_ROOM, editing.list._id);
       }
+    },
+    [ADD_WORD]: (word) => {
+      socket.emit(SocketMessage.ADD_WORD, word.word);
     }
   };
 
