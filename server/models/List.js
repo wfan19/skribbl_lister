@@ -39,18 +39,16 @@ const List = new mongoose.Schema({
   },
 });
 
-List.methods.createWord = function (word, tags) {
+List.methods.createEntry = function (word, tags) {
   return ({
     word: word,
     tags: tags,
   });
 }
 
-List.methods.addWord = function (word, tags) {
-  logger.debug(`Adding word ${word}, with tags ${tags}`);
-  const newWord = this.createWord(word, tags);
-  logger.debug(`New word created: ${JSON.stringify(newWord)}`);
-  this.entries = this.entries.concat([newWord]);
+List.methods.addEntry = function (entry, tags) {
+  const newEntry = this.createEntry(entry, tags);
+  this.entries = this.entries.concat([newEntry]);
   return this.save();
 };
 

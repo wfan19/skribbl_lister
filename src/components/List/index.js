@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import {
@@ -11,19 +11,20 @@ import {
 } from 'semantic-ui-react';
 import 'semantic-ui-css/semantic.min.css';
 
-import { addWord, setEditing } from '../../store/list/actions';
+import {
+  addEntry,
+  setEditing,
+  inputEdited,
+} from '../../store/list/actions';
 
-function List({ dispatch, listSelected, editing }) {
-  const [wordState, setWordState] = useState('');
-  
-  const onInput = (data) => {
-    setWordState(data.target.value);
+function List({ dispatch, listSelected, editing, formInput }) {
+  const onInput = (event) => {
+    dispatch(inputEdited(event.target.value));
   }
 
   const onSubmit = () => {
-    // console.log(wordState);
-    dispatch(addWord(wordState));
-    setWordState('');
+    dispatch(inputEdited(''));
+    dispatch(addEntry(formInput));
   }
   
   const onSetEditing = () => {
@@ -51,7 +52,7 @@ function List({ dispatch, listSelected, editing }) {
               <Form.Field>
                 <Input
                   type="word"
-                  value={wordState}
+                  value={formInput}
                   onChange={onInput}
                   placeholder="Enter word here"
                 />
@@ -71,16 +72,19 @@ List.propTypes = {
     _id: PropTypes.number,
     name: PropTypes.string,
   }),
+  formInput: PropTypes.string,
 };
 
 List.defaultProps = {
   editing: false,
   listSelected: {},
+  formInput: '',
 };
 
 const mapStateToProps = (state) => ({
   listSelected: state.list.listSelected,
   editing: state.list.editing,
+  formInput: state.list.formInput,
 });
 
 export default connect(mapStateToProps)(List);

@@ -9,6 +9,7 @@ const INITIAL_STATE = {
 }
 
 const reducer = {
+  // TODO: Store list header/description info instead of whole list in the future
   [UPDATE_LISTS]: (state, action) => ({
     ...state,
     lists: action.lists,

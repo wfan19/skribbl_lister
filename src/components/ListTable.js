@@ -10,11 +10,12 @@ import 'semantic-ui-css/semantic.min.css';
 
 import {
   createList,
-  deleteList
+  deleteList,
 } from '../store/lists/actions';
 
 import {
-  selectList
+  selectList,
+  setEditing,
 } from '../store/list/actions';
 
 import ListTableRow from './ListTableRow';
@@ -29,6 +30,7 @@ function ListTable({ dispatch, lists, activeList }) {
     // console.log(`Setting active list to ${id}`);
     // setActiveList(id);
     dispatch(selectList(id));
+    dispatch(setEditing(false));
   };
 
   const handleDeleteList = (id) => {

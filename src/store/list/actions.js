@@ -1,8 +1,9 @@
 export const SELECT_LIST = `list/select_list`;
 export const LIST_SELECTED = 'list/list_selected';
 export const SET_EDITING = 'list/set_editing';
-export const ADD_WORD = 'list/add_word';
-export const WORD_ADDED = 'list/word_added';
+export const ADD_ENTRY = 'list/add_entry';
+export const ENTRY_ADDED = 'list/entry_added';
+export const INPUT_EDITED = 'list/input_edited';
 
 export const selectList = (_id) => ({
   type: SELECT_LIST,
@@ -20,12 +21,17 @@ export const setEditing = (list, editing) => ({
   editing,
 })
 
-export const addWord = (word) => ({
-  type: ADD_WORD,
-  word,
+export const addEntry = (entry) => ({
+  type: ADD_ENTRY,
+  entry,
 });
 
-export const wordAdded = (word) => ({
-  type: WORD_ADDED,
-  word,
+export const entryAdded = (entry) => ({
+  type: ENTRY_ADDED,
+  entry,
+})
+
+export const inputEdited = (entry) => ({
+  type: INPUT_EDITED,
+  entry,
 })

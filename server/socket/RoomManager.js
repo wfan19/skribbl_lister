@@ -39,15 +39,16 @@ class RoomManager {
     }
   };
 
-  addWord = async (word) => {
+  // TODO: Fix entrys not saving under their proper lists
+  addEntry = async (entry) => {
     if (this.socket.list) {
       // logger.debug(``)
-      const updatedList = await this.socket.list.addWord(word , []);
-      const newWord = updatedList.entries[updatedList.entries.length - 1];
-      logger.debug(`Broadcasting new word ${JSON.stringify(newWord)}`);
-      this.emitToAllInRoom(SocketMessage.WORD_ADDED, newWord);
+      const updatedList = await this.socket.list.addEntry(entry , []);
+      const newEntry = updatedList.entries[updatedList.entries.length - 1];
+      logger.debug(`Broadcasting new entry ${JSON.stringify(newEntry)}`);
+      this.emitToAllInRoom(SocketMessage.ENTRY_ADDED, newEntry);
     } else {
-      logger.error(`Socket ${this.socket.id} attempting to add word to room while not in one`);
+      logger.error(`Socket ${this.socket.id} attempting to add entry to room while not in one`);
     }
   };
 
