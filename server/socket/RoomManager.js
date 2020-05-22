@@ -23,15 +23,15 @@ class RoomManager {
     this.socket.join(list.accessCode, async () => {
       logger.debug(`Socket ${this.socket.id} joined room with id ${id}`);
       this.socket.listCode = list.accessCode;
-      this.socket.list = list;
+      this.socket.listId = list._id;
     });
   };
 
   leaveRoom = async () => {
-    if (this.socket.list) {
+    if (this.socket.listId) {
       this.socket.leave(this.socket.listCode, async () => {
-        logger.debug(`Socket ${this.socket.id} left room with id ${this.socket.list._id}`);
-        delete this.socket.list;
+        logger.debug(`Socket ${this.socket.id} left room with id ${this.socket.listId}`);
+        delete this.socket.listId;
         delete this.socket.listCode;
       })
     } else {
@@ -41,9 +41,10 @@ class RoomManager {
 
   // TODO: Fix entrys not saving under their proper lists
   addEntry = async (entry) => {
-    if (this.socket.list) {
-      // logger.debug(``)
-      const updatedList = await this.socket.list.addEntry(entry , []);
+    if (this.socket.listId) {
+      logger.debug(`Attempting to add entry ${entry}`);
+      const list = await List.findById(this.socket.listId);
+      const updatedList = await list.addEntry(entry , []);
       const newEntry = updatedList.entries[updatedList.entries.length - 1];
       logger.debug(`Broadcasting new entry ${JSON.stringify(newEntry)}`);
       this.emitToAllInRoom(SocketMessage.ENTRY_ADDED, newEntry);
@@ -51,7 +52,6 @@ class RoomManager {
       logger.error(`Socket ${this.socket.id} attempting to add entry to room while not in one`);
     }
   };
-
 }
 
 module.exports = RoomManager;

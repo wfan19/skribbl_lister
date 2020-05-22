@@ -8,7 +8,7 @@ const ListManager = require('./ListManager');
 const RoomManager = require('./RoomManager');
 
 const listMask = (list) => ({
-  ..._.partial(_.pick, _, ['_id', 'name', 'entries'])(list)
+  ..._.partial(_.pick, _, ['_id', 'name'])(list)
 })
 
 module.exports = ({ app, expressSession }) => {
