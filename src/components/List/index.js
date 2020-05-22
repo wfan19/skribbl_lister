@@ -8,6 +8,7 @@ import {
   Input,
   Segment,
   Icon,
+  Grid,
 } from 'semantic-ui-react';
 import 'semantic-ui-css/semantic.min.css';
 
@@ -16,6 +17,8 @@ import {
   setEditing,
   inputEdited,
 } from '../../store/list/actions';
+
+import EntriesList from './EntriesList';
 
 function List({ dispatch, listSelected, editing, formInput }) {
   const onInput = (event) => {
@@ -42,7 +45,7 @@ function List({ dispatch, listSelected, editing, formInput }) {
   } else {
     return (
       <div>
-        <Segment style={{ marginLeft: '10vw', marginRight: '10vw' }}>
+        <Segment style={{ marginRight: '1vw' }}>
           <Button toggle active={editing} floated="right" onClick={onSetEditing}>
             <Icon fitted name="pencil alternate" />
           </Button>
@@ -59,6 +62,10 @@ function List({ dispatch, listSelected, editing, formInput }) {
               </Form.Field>
             </Form>
           }
+        </Segment>
+
+        <Segment style={{ marginRight: '1vw' }}>
+          <EntriesList entries={listSelected.entries}/>
         </Segment>
       </div>
     );
