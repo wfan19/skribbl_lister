@@ -1,3 +1,4 @@
+import { batch } from 'react-redux';
 import * as SocketMessage from '../../lib/MessageNames';
 import Socket from './Socket';
 import {
@@ -18,10 +19,11 @@ import {
   SELECT_LIST,
   SET_EDITING,
   ADD_ENTRY,
+  DELETE_ENTRY,
   entryAdded,
   listSelected,
-  DELETE_ENTRY,
   entryDeleted,
+  setEditing,
 } from '../list/actions';
 
 const socketMiddleware = (store) => {
@@ -43,7 +45,11 @@ const socketMiddleware = (store) => {
         store.dispatch(updateLists(lists));
       },
       [SocketMessage.LIST_CREATED]: (list) => {
-        store.dispatch(listCreated(list));
+        batch(() => {
+          store.dispatch(listCreated(list));
+          store.dispatch(listSelected(list));
+          store.dispatch(setEditing(true));
+        });
       },
       [SocketMessage.LIST_DELETED]: (id) => {
         store.dispatch(listDeleted(id));

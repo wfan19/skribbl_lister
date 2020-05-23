@@ -24,16 +24,17 @@ function EntriesList({ dispatch, entries, editing }) {
           {/* <Card.Header>{entry.word}</Card.Header> */}
           <Card.Description>{entry.word}</Card.Description>
         </Card.Content>
-        <Card.Content style={{ padding:'0.3rem' }}>
-          {editing && 
+        {editing &&
+          <Card.Content style={{ padding:'0.3rem' }}>
             <Button
             fitted
             size="mini"
             floated="right"
             icon="trash"
             onClick={onDelete}
-            />}
-        </Card.Content>
+            />
+          </Card.Content>
+        }
       </Card>
     )
   }

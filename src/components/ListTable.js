@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { connect, batch } from 'react-redux';
 import {
   Button,
   Table,
@@ -20,21 +20,26 @@ import {
 
 import ListTableRow from './ListTableRow';
 
-function ListTable({ dispatch, lists, activeList }) {
+function ListTable({ dispatch, lists }) {
 
   const handleCreateList = () => {
-    dispatch(createList({ name: 'name1234' }));
+    batch(() => {
+      dispatch(createList({ name: 'name1234' }));
+    });
   };
 
   const handleOpenList = (id) => {
-    // console.log(`Setting active list to ${id}`);
-    // setActiveList(id);
-    dispatch(selectList(id));
-    dispatch(setEditing(false));
+    batch(() => {
+      dispatch(selectList(id));
+      dispatch(setEditing(false));
+    });
   };
 
   const handleDeleteList = (id) => {
-    dispatch(deleteList(id));
+    batch(() => {
+      dispatch(deleteList(id));
+      dispatch(setEditing(false));
+    });
   };
 
   return(

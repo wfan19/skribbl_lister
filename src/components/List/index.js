@@ -7,7 +7,7 @@ import {
   Header,
   Input,
   Segment,
-  Grid,
+  Modal,
 } from 'semantic-ui-react';
 import 'semantic-ui-css/semantic.min.css';
 
@@ -35,7 +35,7 @@ function List({ dispatch, listSelected, editing, formInput }) {
     }
   }
 
-  if (!listSelected._id){
+  if (!listSelected._id) {
     return (
       <div style={{ textAlign: 'center'}}>
         <p>No list selected</p>
@@ -45,22 +45,30 @@ function List({ dispatch, listSelected, editing, formInput }) {
     return (
       <div>
         <Segment style={{ marginRight: '1vw' }}>
-            <Grid columns={2}>
-              <Grid.Column>
-                <Header as="h1">This is a list!!</Header>
-              </Grid.Column>
-              <Grid.Column>
-                <Button
-                toggle
-                active={editing}
-                floated="right"
-                onClick={onSetEditing}
-                icon="pencil alternate"
-                />
-              </Grid.Column>
-          </Grid>
+          <Header as="h1" style={{ display: 'inline' }}>{listSelected.name}</Header>
+          <Button
+            toggle
+            active={editing}
+            floated="right"
+            onClick={onSetEditing}
+            icon="pencil alternate"
+          />
           {editing && 
-              <Form onSubmit={onSubmit}>
+            <Modal
+              trigger={
+                <Button
+                floated="right"
+                icon="settings"
+                />
+              }
+            >
+              
+            </Modal>
+
+          }
+
+          {editing && 
+              <Form style={{ marginTop: '1rem' }}onSubmit={onSubmit}>
                 <Form.Field>
                   <Input
                     type="word"
