@@ -57,4 +57,9 @@ List.methods.deleteEntry = function (_id) {
   return this.save();
 };
 
+List.methods.changeName = function (name) {
+  this.name = name;
+  return this.save();
+}
+
 module.exports.List = List;

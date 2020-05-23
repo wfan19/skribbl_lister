@@ -1,3 +1,4 @@
+const _ = require('lodash');
 const logger = require('../logger');
 const SocketMessage = require('../../src/lib/MessageNames');
 const { List } = require('../models');
@@ -11,6 +12,10 @@ class RoomManager {
   emitToAllInRoom(messageName, data){
     logger.debug(`[emitToAllInRoom()] Emitting ${data} to room ${this.socket.listCode}`);
     this.io.in(this.socket.listCode).emit(messageName, data);
+  }
+
+  emitToAll(...args){
+    this.io.emit(...args);
   }
 
   joinRoom = async (id) => {
@@ -59,6 +64,23 @@ class RoomManager {
       this.emitToAllInRoom(SocketMessage.ENTRY_DELETED, id);
     } else {
       logger.error(`[DELETE_ENTRY] Socket ${this.socket.id} attempting to delete entry from room while not in one`);
+    }
+  }
+
+  changeName = async (name) => {
+    if (this.socket.listId) {
+      logger.debug(`[CHANGE_NAME] Socket ${this.socket.id} changing name of list ${this.socket.listId}`);
+      const list = await List.findById(this.socket.listId);
+      await list.changeName(name);
+      this.emitToAllInRoom(SocketMessage.LIST_NAME_CHANGED, name);
+
+      // Broadcast updated lists to everyone connected to update the list table
+      const listMask = (list) => ({ ..._.partial(_.pick, _, ['_id', 'name'])(list) })
+      List.find().then((lists) => {
+        this.emitToAll(SocketMessage.UPDATE_LISTS, lists.map(listMask));
+      });
+    } else {
+      logger.error(`[CHANGE_NAME] Socket ${this.socket.id} attempting to change list name while not in one`);
     }
   }
 }

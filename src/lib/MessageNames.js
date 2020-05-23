@@ -21,5 +21,7 @@ module.exports = {
     ENTRY_ADDED: 'entry_added',
     DELETE_ENTRY: 'delete_entry',
     ENTRY_DELETED: 'entry_deleted',
+    CHANGE_LIST_NAME: 'change_list_name',
+    LIST_NAME_CHANGED: 'list_name_changed'
   };
   

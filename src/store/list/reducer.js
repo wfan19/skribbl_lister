@@ -5,6 +5,7 @@ import {
   ENTRY_ADDED,
   INPUT_EDITED,
   ENTRY_DELETED,
+  NAME_CHANGED
 } from './actions';
 
 const INITIAL_STATE = {
@@ -49,7 +50,14 @@ const reducers = {
       ...state.listSelected,
       entries: state.listSelected.entries.filter((entry) => entry._id != action._id)
     }
-  })
+  }),
+  [NAME_CHANGED]: (state, action) => ({
+    ...state,
+    listSelected: {
+      ...state.listSelected,
+      name: action.name,
+    },
+  }),
 };
 
 function listReducer(state = INITIAL_STATE, action) {

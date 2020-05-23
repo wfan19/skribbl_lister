@@ -6,6 +6,8 @@ export const ADD_ENTRY = 'list/add_entry';
 export const ENTRY_ADDED = 'list/entry_added';
 export const DELETE_ENTRY = 'list/delete_entry';
 export const ENTRY_DELETED = 'list/entry_deleted';
+export const CHANGE_NAME = 'list/change_name';
+export const NAME_CHANGED = 'list/name_changed';
 
 export const selectList = (_id) => ({
   type: SELECT_LIST,
@@ -47,3 +49,13 @@ export const entryDeleted = (_id) => ({
   type: ENTRY_DELETED,
   _id,
 });
+
+export const changeName = (name) => ({
+  type: CHANGE_NAME,
+  name,
+})
+
+export const nameChanged = (name) => ({
+  type: NAME_CHANGED,
+  name,
+})

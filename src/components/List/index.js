@@ -7,7 +7,6 @@ import {
   Header,
   Input,
   Segment,
-  Modal,
 } from 'semantic-ui-react';
 import 'semantic-ui-css/semantic.min.css';
 
@@ -18,6 +17,7 @@ import {
 } from '../../store/list/actions';
 
 import EntriesList from './EntriesList';
+import ListSettingsModal from './ListSettingsModal';
 
 function List({ dispatch, listSelected, editing, formInput }) {
   const onInput = (event) => {
@@ -53,22 +53,10 @@ function List({ dispatch, listSelected, editing, formInput }) {
             onClick={onSetEditing}
             icon="pencil alternate"
           />
-          {editing && 
-            <Modal
-              trigger={
-                <Button
-                floated="right"
-                icon="settings"
-                />
-              }
-            >
-              
-            </Modal>
-
-          }
+          {editing && <ListSettingsModal listSelected={listSelected}/>}
 
           {editing && 
-              <Form style={{ marginTop: '1rem' }}onSubmit={onSubmit}>
+              <Form style={{ marginTop: '1rem' }} onSubmit={onSubmit}>
                 <Form.Field>
                   <Input
                     type="word"

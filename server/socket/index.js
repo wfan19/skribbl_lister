@@ -33,6 +33,7 @@ module.exports = ({ app, expressSession }) => {
       [SocketMessage.LEAVE_LIST_ROOM]: mRoomManager.leaveRoom,
       [SocketMessage.ADD_ENTRY]: mRoomManager.addEntry,
       [SocketMessage.DELETE_ENTRY]: mRoomManager.deleteEntry,
+      [SocketMessage.CHANGE_LIST_NAME]: mRoomManager.changeName,
     }
 
     // Register middleware
