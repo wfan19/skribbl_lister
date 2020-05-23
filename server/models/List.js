@@ -9,7 +9,7 @@ const Tag = new mongoose.Schema({
   },
   color: {
     type: String,
-    default: 'b0b0b0',
+    default: 'blue',
   },
 });
 
@@ -49,6 +49,11 @@ List.methods.createEntry = function (word, tags) {
 List.methods.addEntry = function (entry, tags) {
   const newEntry = this.createEntry(entry, tags);
   this.entries = this.entries.concat([newEntry]);
+  return this.save();
+};
+
+List.methods.deleteEntry = function (_id) {
+  this.entries = this.entries.filter((entry) => entry._id != _id);
   return this.save();
 };
 

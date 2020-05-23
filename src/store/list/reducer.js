@@ -1,10 +1,10 @@
 import {
-  ADD_ENTRY,
   LIST_SELECTED,
   SELECT_LIST,
   SET_EDITING,
   ENTRY_ADDED,
   INPUT_EDITED,
+  ENTRY_DELETED,
 } from './actions';
 
 const INITIAL_STATE = {
@@ -32,6 +32,10 @@ const reducers = {
     editing: action.editing,
     formInput: '',
   }),
+  [INPUT_EDITED]: (state, action) => ({
+    ...state,
+    formInput: action.entry,
+  }),
   [ENTRY_ADDED]: (state, action) => ({
     ...state,
     listSelected: {
@@ -39,9 +43,12 @@ const reducers = {
       entries: state.listSelected.entries.concat(action.entry),   
     },
   }),
-  [INPUT_EDITED]: (state, action) => ({
+  [ENTRY_DELETED]: (state, action) => ({
     ...state,
-    formInput: action.entry,
+    listSelected: {
+      ...state.listSelected,
+      entries: state.listSelected.entries.filter((entry) => entry._id != action._id)
+    }
   })
 };
 

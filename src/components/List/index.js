@@ -7,7 +7,6 @@ import {
   Header,
   Input,
   Segment,
-  Icon,
   Grid,
 } from 'semantic-ui-react';
 import 'semantic-ui-css/semantic.min.css';
@@ -46,22 +45,32 @@ function List({ dispatch, listSelected, editing, formInput }) {
     return (
       <div>
         <Segment style={{ marginRight: '1vw' }}>
-          <Button toggle active={editing} floated="right" onClick={onSetEditing}>
-            <Icon fitted name="pencil alternate" />
-          </Button>
-          <Header as="h1">This is a list!!</Header>
-          {editing && 
-            <Form onSubmit={onSubmit}>
-              <Form.Field>
-                <Input
-                  type="word"
-                  value={formInput}
-                  onChange={onInput}
-                  placeholder="Enter word here"
+            <Grid columns={2}>
+              <Grid.Column>
+                <Header as="h1">This is a list!!</Header>
+              </Grid.Column>
+              <Grid.Column>
+                <Button
+                toggle
+                active={editing}
+                floated="right"
+                onClick={onSetEditing}
+                icon="pencil alternate"
                 />
-              </Form.Field>
-            </Form>
-          }
+              </Grid.Column>
+          </Grid>
+          {editing && 
+              <Form onSubmit={onSubmit}>
+                <Form.Field>
+                  <Input
+                    type="word"
+                    value={formInput}
+                    onChange={onInput}
+                    placeholder="Enter word here"
+                  />
+                </Form.Field>
+              </Form>
+            }
         </Segment>
 
         <Segment style={{ marginRight: '1vw' }}>

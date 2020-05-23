@@ -20,6 +20,8 @@ import {
   ADD_ENTRY,
   entryAdded,
   listSelected,
+  DELETE_ENTRY,
+  entryDeleted,
 } from '../list/actions';
 
 const socketMiddleware = (store) => {
@@ -51,7 +53,10 @@ const socketMiddleware = (store) => {
       },
       [SocketMessage.ENTRY_ADDED]: (entry) => {
         store.dispatch(entryAdded(entry));
-      }
+      },
+      [SocketMessage.ENTRY_DELETED]: (id) => {
+        store.dispatch(entryDeleted(id));
+      },
     },
   });
 
@@ -88,7 +93,10 @@ const socketMiddleware = (store) => {
     },
     [ADD_ENTRY]: (entry) => {
       socket.emit(SocketMessage.ADD_ENTRY, entry.entry);
-    }
+    },
+    [DELETE_ENTRY]: (id) => {
+      socket.emit(SocketMessage.DELETE_ENTRY, id._id);
+    },
   };
 
   // Return the handler that will be called for each action dispatched

@@ -19,5 +19,7 @@ module.exports = {
     LEAVE_LIST_ROOM: 'leave_list_room',
     ADD_ENTRY: 'add_entry',
     ENTRY_ADDED: 'entry_added',
+    DELETE_ENTRY: 'delete_entry',
+    ENTRY_DELETED: 'entry_deleted',
   };
   
