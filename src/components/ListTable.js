@@ -43,7 +43,7 @@ function ListTable({ dispatch, lists }) {
   };
 
   return(
-    <Table celled striped selectable>
+    <Table celled striped>
       <Table.Header>
         <Table.Row>
           <Table.HeaderCell>

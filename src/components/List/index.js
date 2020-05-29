@@ -7,6 +7,8 @@ import {
   Header,
   Input,
   Segment,
+  Dimmer,
+  Loader,
 } from 'semantic-ui-react';
 import 'semantic-ui-css/semantic.min.css';
 
@@ -25,14 +27,14 @@ class List extends React.Component {
   constructor(props) {
     super(props);
     const {
-      dispatch, match, listSelected, editing, formInput,
+      dispatch, match, listSelected, fetching,
     } = this.props;
 
     if (listSelected.name) {
       document.title = `${listSelected.name} - Skribbl.db`;
     }
 
-    if(match.params.listId) {
+    if(match.params.listId && !fetching) {
       dispatch(selectList(match.params.listId));
     }
   }
@@ -55,16 +57,15 @@ class List extends React.Component {
     }
   }
 
-
   render() {
     const {
-      listSelected, editing, formInput
+      listSelected, editing, formInput, fetching
     } = this.props;
 
-    if (!listSelected._id) {
+    if (fetching) {
       return (
-        <div style={{ textAlign: 'center'}}>
-          <p>No list selected</p>
+        <div>
+          <Loader/>
         </div>
       );
     } else {
@@ -76,18 +77,18 @@ class List extends React.Component {
               toggle
               active={editing}
               floated="right"
-              onClick={this.onSetEditing}
+              onClick={() => { this.onSetEditing(); }}
               icon="pencil alternate"
             />
             {editing && <ListSettingsModal listSelected={listSelected}/>}
   
             {editing && 
-                <Form style={{ marginTop: '1rem' }} onSubmit={this.onSubmit}>
+                <Form style={{ marginTop: '1rem' }} onSubmit={() => { this.onSubmit(); }}>
                   <Form.Field>
                     <Input
                       type="word"
                       value={formInput}
-                      onChange={this.onInput}
+                      onChange={(event) => { this.onInput(event); }}
                       placeholder="Enter word here"
                     />
                   </Form.Field>
@@ -112,18 +113,21 @@ List.propTypes = {
       name: PropTypes.string,
     }),
     formInput: PropTypes.string,
+    fetching: PropTypes.bool,
   };
   
   List.defaultProps = {
     editing: false,
     listSelected: {},
     formInput: '',
+    fetching: false,
   };
   
   const mapStateToProps = (state) => ({
     listSelected: state.list.listSelected,
     editing: state.list.editing,
     formInput: state.list.formInput,
+    fetching: state.list.fetching,
   });
   
   export default connect(mapStateToProps)(List);

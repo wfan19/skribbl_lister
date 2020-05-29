@@ -4,7 +4,7 @@ import {
   Grid,
   Segment,
   Dimmer,
-  Loader
+  Loader,
 } from 'semantic-ui-react';
 import 'semantic-ui-css/semantic.min.css';
 
@@ -14,9 +14,7 @@ const List = lazy(() => import('./List'))
 
 const Loading = (
   <div>
-    <Dimmer active>
-      <Loader/>
-    </Dimmer>
+    <Loader/>
   </div>
 )
 

@@ -11,11 +11,13 @@ import 'semantic-ui-css/semantic.min.css';
 
 function ListTableRow({ list, onClick, onDelete, activeListId }) {
   return (
-    <Table.Row active={activeListId === list._id}>
-      <Table.Cell as={Link} to={`/list/${list._id}`} verticalAlgin='middle'>
-        {list.name}
-        <Button onClick={() => onDelete(list._id)} size='mini' compact floated='right' icon="trash" />
-      </Table.Cell>
+    <Table.Row active={activeListId === list._id} onClick={() => onClick(list._id)}>
+      <Table.Cell verticalAlgin='middle' selectable>
+        <Link to={`/list/${list._id}`} style={{ display: "block" }}>
+          {list.name}
+          <Button onClick={() => onDelete(list._id)} size='mini' compact floated='right' icon="trash" />
+        </Link>
+        </Table.Cell>
     </Table.Row>
   )
 };

@@ -9,24 +9,24 @@ import {
 } from './actions';
 
 const INITIAL_STATE = {
-  listSelectedId: null,
   listSelected: {},
   editing: false,
   formInput: '',
+  fetching: false,
 };
 
 const reducers = {
   [SELECT_LIST]: (state, action) => ({
     ...state,
-    listSelectedId: action._id,
     listSelected: {},
+    fetching: true,
   }),
   [LIST_SELECTED]: (state, action) => ({
     ...state,
     editing: false,
-    listSelectedId: action.list ? action.list._id : null,
     listSelected: action.list ? action.list : {},
     formInput: '',
+    fetching: false,
   }),
   [SET_EDITING]: (state, action) => ({
     ...state,
