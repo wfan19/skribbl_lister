@@ -12,6 +12,7 @@ import 'semantic-ui-css/semantic.min.css';
 
 import {
   addEntry,
+  selectList,
   setEditing,
   inputEdited,
 } from '../../store/list/actions';
@@ -19,84 +20,110 @@ import {
 import EntriesList from './EntriesList';
 import ListSettingsModal from './ListSettingsModal';
 
-function List({ dispatch, listSelected, editing, formInput }) {
-  const onInput = (event) => {
+
+class List extends React.Component {
+  constructor(props) {
+    super(props);
+    const {
+      dispatch, match, listSelected, editing, formInput,
+    } = this.props;
+
+    if (listSelected.name) {
+      document.title = `${listSelected.name} - Skribbl.db`;
+    }
+
+    if(match.params.listId) {
+      dispatch(selectList(match.params.listId));
+    }
+  }
+
+  onInput(event) {
+    const { dispatch } = this.props;
     dispatch(inputEdited(event.target.value));
   }
 
-  const onSubmit = () => {
+  onSubmit() {
+    const { dispatch, formInput } = this.props;
     dispatch(inputEdited(''));
     dispatch(addEntry(formInput));
   }
-  
-  const onSetEditing = () => {
+
+  onSetEditing() {
+    const { dispatch, listSelected, editing } = this.props;
     if (listSelected) {
       dispatch(setEditing(listSelected, !editing));
     }
   }
 
-  if (!listSelected._id) {
-    return (
-      <div style={{ textAlign: 'center'}}>
-        <p>No list selected</p>
-      </div>
-    );
-  } else {
-    return (
-      <div>
-        <Segment style={{ marginRight: '1vw' }}>
-          <Header as="h1" style={{ display: 'inline' }}>{listSelected.name}</Header>
-          <Button
-            toggle
-            active={editing}
-            floated="right"
-            onClick={onSetEditing}
-            icon="pencil alternate"
-          />
-          {editing && <ListSettingsModal listSelected={listSelected}/>}
 
-          {editing && 
-              <Form style={{ marginTop: '1rem' }} onSubmit={onSubmit}>
-                <Form.Field>
-                  <Input
-                    type="word"
-                    value={formInput}
-                    onChange={onInput}
-                    placeholder="Enter word here"
-                  />
-                </Form.Field>
-              </Form>
-            }
-        </Segment>
+  render() {
+    const {
+      listSelected, editing, formInput
+    } = this.props;
 
-        <Segment style={{ marginRight: '1vw' }}>
-          <EntriesList entries={listSelected.entries}/>
-        </Segment>
-      </div>
-    );
+    if (!listSelected._id) {
+      return (
+        <div style={{ textAlign: 'center'}}>
+          <p>No list selected</p>
+        </div>
+      );
+    } else {
+      return (
+        <div>
+          <Segment style={{ marginRight: '1vw' }}>
+            <Header as="h1" style={{ display: 'inline' }}>{listSelected.name}</Header>
+            <Button
+              toggle
+              active={editing}
+              floated="right"
+              onClick={this.onSetEditing}
+              icon="pencil alternate"
+            />
+            {editing && <ListSettingsModal listSelected={listSelected}/>}
+  
+            {editing && 
+                <Form style={{ marginTop: '1rem' }} onSubmit={this.onSubmit}>
+                  <Form.Field>
+                    <Input
+                      type="word"
+                      value={formInput}
+                      onChange={this.onInput}
+                      placeholder="Enter word here"
+                    />
+                  </Form.Field>
+                </Form>
+              }
+          </Segment>
+  
+          <Segment style={{ marginRight: '1vw' }}>
+            <EntriesList entries={listSelected.entries}/>
+          </Segment>
+        </div>
+      );
+    }
   }
 }
 
 List.propTypes = {
-  dispatch: PropTypes.func.isRequired,
-  editing: PropTypes.bool,
-  listSelected: PropTypes.shape({
-    _id: PropTypes.number,
-    name: PropTypes.string,
-  }),
-  formInput: PropTypes.string,
-};
-
-List.defaultProps = {
-  editing: false,
-  listSelected: {},
-  formInput: '',
-};
-
-const mapStateToProps = (state) => ({
-  listSelected: state.list.listSelected,
-  editing: state.list.editing,
-  formInput: state.list.formInput,
-});
-
-export default connect(mapStateToProps)(List);
+    dispatch: PropTypes.func.isRequired,
+    editing: PropTypes.bool,
+    listSelected: PropTypes.shape({
+      _id: PropTypes.number,
+      name: PropTypes.string,
+    }),
+    formInput: PropTypes.string,
+  };
+  
+  List.defaultProps = {
+    editing: false,
+    listSelected: {},
+    formInput: '',
+  };
+  
+  const mapStateToProps = (state) => ({
+    listSelected: state.list.listSelected,
+    editing: state.list.editing,
+    formInput: state.list.formInput,
+  });
+  
+  export default connect(mapStateToProps)(List);

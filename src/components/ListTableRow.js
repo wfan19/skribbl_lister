@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import {
     Button,
     Table,
@@ -11,11 +12,9 @@ import 'semantic-ui-css/semantic.min.css';
 function ListTableRow({ list, onClick, onDelete, activeListId }) {
   return (
     <Table.Row active={activeListId === list._id}>
-      <Table.Cell verticalAlgin='middle' onClick={() => (onClick(list._id))}>
+      <Table.Cell as={Link} to={`/list/${list._id}`} verticalAlgin='middle'>
         {list.name}
-        <Button onClick={() => onDelete(list._id)} size='mini' compact floated='right'>
-          <Icon fitted name="trash"/>
-        </Button>
+        <Button onClick={() => onDelete(list._id)} size='mini' compact floated='right' icon="trash" />
       </Table.Cell>
     </Table.Row>
   )

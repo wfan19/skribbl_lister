@@ -1,12 +1,24 @@
-import React from 'react';
+import React, { Suspense, lazy } from 'react';
+import { Route } from 'react-router-dom';
 import {
   Grid,
   Segment,
+  Dimmer,
+  Loader
 } from 'semantic-ui-react';
 import 'semantic-ui-css/semantic.min.css';
 
 import ListTable from './ListTable';
-import List from './List';
+
+const List = lazy(() => import('./List'))
+
+const Loading = (
+  <div>
+    <Dimmer active>
+      <Loader/>
+    </Dimmer>
+  </div>
+)
 
 function Home() {
 
@@ -26,7 +38,9 @@ function Home() {
         </Grid.Column>
 
         <Grid.Column stretced width={12}>
-          <List/>
+          <Suspense fallback={Loading}>
+            <Route path="/list/:listId" component={List} />
+          </Suspense>
         </Grid.Column>
       </Grid>
     </div>
